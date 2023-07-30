@@ -11,12 +11,13 @@
 ![](/documents/pic/Requirements_testing.png)
 
 Виды тестирования
-Smoke тестирование
 
-Функциональное тестирование
+[Smoke тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/pic/Smoke_TC.png)
 
-Регрессионное тестирование
+[Функциональное тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/Functional_testing.pdf)
 
-Приемочное тестирование
+[Регрессионное тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/Regression_testing.pdf)
+
+[Приемочное тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/pic/Acceptance_TC.png)
 
 Тестирование API
