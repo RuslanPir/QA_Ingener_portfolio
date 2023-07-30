@@ -1,3 +1,3 @@
 ![](/documents/pic/API_testing.png)
 
-- [Импорт коллекции из Postman](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/2e4a64badf5d28c6f1b18fdef03b4cf74dbea18e/documents/json/Postman_collection_Pirozhkov.json)
+- [Импорт коллекции из Postman](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/1a3775bc494bc31fd0f1fd57f0875919288baf40/documents/json/Postman_collection_Pirozhkov.json)
