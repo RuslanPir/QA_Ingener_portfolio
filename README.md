@@ -11,10 +11,6 @@ SoapUI, Android Studio, xCode, Charles, Git, Chrome DevTools.
 ## Проекты
 Проект_1: Тестирование нового функционала (Личные события) в кабинете учителя Skyeng
 
-### Требования к новому функционалу:
-
-_[](/documents/requirements.md)
-
-_[План автоматизации](/documents/requirements.md)_
+_[Требования к новому функционалу:](/documents/requirements.md)_
 
 [Декомпозиция](https://miro.com/app/board/uXjVPl3BZy8=/?share_link_id=382124920475)
