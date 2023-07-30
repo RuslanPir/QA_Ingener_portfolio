@@ -1,0 +1,2908 @@
+{
+	"info": {
+		"_postman_id": "3da2890c-047f-4eaf-b886-cf943358a743",
+		"name": "Кабинет_учителя_Skyeng",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26677897",
+		"_collection_link": "https://www.postman.com/avionics-saganist-45526712/workspace/course-work-api/collection/26677897-3da2890c-047f-4eaf-b886-cf943358a743?action=share&creator=26677897&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Создание события",
+			"item": [
+				{
+					"name": "Минимальное название, в прошлом, без описания и указания цвета",
+					"item": [
+						{
+							"name": "Минимальное название/в прошлом/без описание/цвет по умолчанию",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"\r",
+											"\r",
+											"//console.log(\"{{id_toDelete}}\");\r",
+											"//console.log(pm.collectionVariables.mutations.compacted.id_toDelete[1]);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"lastMonth\", moment().add(-1,'M').format(\"YYYY-MM-DDT\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#81888D\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"{{lastMonth}}00:00:00+03:00\",\r\n    \"endAt\": \"{{lastMonth}}00:01:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Проверка создания",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var array = JSON.stringify(pm.collectionVariables.values);\r",
+											"var numEl = parseInt(array.match(/82\\d{6}/));\r",
+											"\r",
+											"pm.test(\"The body contains the generated event\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(numEl);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"//var pattern = /\\d{8}/;\r",
+											"//const array = pm.collectionVariables.values;\r",
+											"//let obj = JSON.stringify(array[3]);\r",
+											"\r",
+											"\r",
+											"//pm.test(\"Body matches string\", function () {\r",
+											"//    pm.expect(pm.response.text()).to.include(pm.collectionVariables.values[2].value);\r",
+											"//});\r",
+											"\r",
+											"\r",
+											"//console.log(numEl);\r",
+											"//console.log(obj);\r",
+											"//console.log(pm.collectionVariables.values[2])"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"from\": \"{{lastMonth}}00:00:00+03:00\",\r\n    \"till\": \"{{lastMonth}}10:00:00+03:00\",\r\n    \"onlyTypes\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/events",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{lastMonth}}00:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Название 15 символов, на сегодня, зеленого цвета, с текстом в описании",
+					"item": [
+						{
+							"name": "На сегодня/зеленого цвета/текст в описании",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"\r",
+											"\r",
+											"//console.log(\"{{id_toDelete}}\");\r",
+											"//console.log(pm.collectionVariables.mutations.compacted.id_toDelete[1]);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"Небольшое описание события\",\r\n    \"title\": \"СреднееНазвание\",\r\n    \"startAt\": \"{{Today}}12:00:00+03:00\",\r\n    \"endAt\": \"{{Today}}13:30:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Проверка создания",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var array = JSON.stringify(pm.collectionVariables.values);\r",
+											"var numEl = parseInt(array.match(/82\\d{6}/));\r",
+											"\r",
+											"pm.test(\"The body contains the generated event\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(numEl);\r",
+											"});\r",
+											"\r",
+											"//var pattern = /\\d{8}/;\r",
+											"//const array = pm.collectionVariables.values;\r",
+											"//let obj = JSON.stringify(array[3]);\r",
+											"\r",
+											"\r",
+											"//pm.test(\"Body matches string\", function () {\r",
+											"//    pm.expect(pm.response.text()).to.include(pm.collectionVariables.values[2].value);\r",
+											"//});\r",
+											"\r",
+											"\r",
+											"//console.log(numEl);\r",
+											"//console.log(obj);\r",
+											"//console.log(pm.collectionVariables.values[2])"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"from\": \"{{Today}}00:00:00+03:00\",\r\n    \"till\": \"{{Today}}23:59:00+03:00\",\r\n    \"onlyTypes\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/events",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{Today}}12:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Название 39 символов, в следующем месяце, зеленого цвета, с марктауном в описании",
+					"item": [
+						{
+							"name": "Название 39 символов/на будущее/маркдауны",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"\r",
+											"\r",
+											"//console.log(\"{{id_toDelete}}\");\r",
+											"//console.log(pm.collectionVariables.mutations.compacted.id_toDelete[1]);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"nextMonth\", moment().add(1,'M').format(\"YYYY-MM-DDT\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"# Добро пожаловать! ; > А тут обычный текст. ## Это второй уровень Хорошо быть заголовком. ### А это — третий #### Любимый четвертый уровень ##### Жалкий пятый уровень ###### Смешной шестой уровень\",\r\n    \"title\": \"Событие_длинною_тридцать_девять_символо\",\r\n    \"startAt\": \"{{nextMonth}}22:58:00+03:00\",\r\n    \"endAt\": \"{{nextMonth}}23:59:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Проверка создания",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var array = JSON.stringify(pm.collectionVariables.values);\r",
+											"var numEl = parseInt(array.match(/82\\d{6}/));\r",
+											"\r",
+											"pm.test(\"The body contains the generated event\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(numEl);\r",
+											"});\r",
+											"\r",
+											"//var pattern = /\\d{8}/;\r",
+											"//const array = pm.collectionVariables.values;\r",
+											"//let obj = JSON.stringify(array[3]);\r",
+											"\r",
+											"\r",
+											"//pm.test(\"Body matches string\", function () {\r",
+											"//    pm.expect(pm.response.text()).to.include(pm.collectionVariables.values[2].value);\r",
+											"//});\r",
+											"\r",
+											"\r",
+											"//console.log(numEl);\r",
+											"//console.log(obj);\r",
+											"//console.log(pm.collectionVariables.values[2])"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"from\": \"{{nextMonth}}22:58:00+03:00\",\r\n    \"till\": \"{{nextMonth}}23:59:10+03:00\",\r\n    \"onlyTypes\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/events",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{nextMonth}}22:58:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Название 40 символов, на сегодня, зеленого цвета, с ссылкой в описании",
+					"item": [
+						{
+							"name": "Название 40 символов/на сегодня/ссылка в описании",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"\r",
+											"\r",
+											"//console.log(\"{{id_toDelete}}\");\r",
+											"//console.log(pm.collectionVariables.mutations.compacted.id_toDelete[1]);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"https://www.google.com.ru\",\r\n    \"title\": \"Новое____событие__длинною_сорок_символов\",\r\n    \"startAt\": \"{{Today}}00:00:00+03:00\",\r\n    \"endAt\": \"{{Today}}23:59:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Проверка создания",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var array = JSON.stringify(pm.collectionVariables.values);\r",
+											"var numEl = parseInt(array.match(/82\\d{6}/));\r",
+											"\r",
+											"pm.test(\"The body contains the generated event\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(numEl);\r",
+											"});\r",
+											"\r",
+											"//var pattern = /\\d{8}/;\r",
+											"//const array = pm.collectionVariables.values;\r",
+											"//let obj = JSON.stringify(array[3]);\r",
+											"\r",
+											"\r",
+											"//pm.test(\"Body matches string\", function () {\r",
+											"//    pm.expect(pm.response.text()).to.include(pm.collectionVariables.values[2].value);\r",
+											"//});\r",
+											"\r",
+											"\r",
+											"//console.log(numEl);\r",
+											"//console.log(obj);\r",
+											"//console.log(pm.collectionVariables.values[2])"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"from\": \"{{Today}}00:00:00+03:00\",\r\n    \"till\": \"{{Today}}23:59:30+03:00\",\r\n    \"onlyTypes\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/events",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{Today}}00:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Событие на несколько дней, зеленого цвета, с ссылкой в описании",
+					"item": [
+						{
+							"name": "Событие на несколько дней",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"\r",
+											"\r",
+											"//console.log(\"{{id_toDelete}}\");\r",
+											"//console.log(pm.collectionVariables.mutations.compacted.id_toDelete[1]);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\")); \r",
+											"pm.collectionVariables.set(\"Tomorrow\", moment().add(1,'d').format(\"YYYY-MM-DDT\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"https://www.google.com.ru\",\r\n    \"title\": \"Новое____событие__длинною_сорок_символов\",\r\n    \"startAt\": \"{{Today}}13:00:00+03:00\",\r\n    \"endAt\": \"{{Tomorrow}}12:00:00+03:00\"\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Проверка создания",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var array = JSON.stringify(pm.collectionVariables.values);\r",
+											"var numEl = parseInt(array.match(/82\\d{6}/));\r",
+											"\r",
+											"pm.test(\"The body contains the generated event\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(numEl);\r",
+											"});\r",
+											"\r",
+											"//var pattern = /\\d{8}/;\r",
+											"//const array = pm.collectionVariables.values;\r",
+											"//let obj = JSON.stringify(array[3]);\r",
+											"\r",
+											"\r",
+											"//pm.test(\"Body matches string\", function () {\r",
+											"//    pm.expect(pm.response.text()).to.include(pm.collectionVariables.values[2].value);\r",
+											"//});\r",
+											"\r",
+											"\r",
+											"//console.log(numEl);\r",
+											"//console.log(obj);\r",
+											"//console.log(pm.collectionVariables.values[2])"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"from\": \"{{Today}}10:00:00+03:00\",\r\n    \"till\": \"{{Tomorrow}}19:00:00+03:00\",\r\n    \"onlyTypes\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/events",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{Today}}13:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Событие с картинкой в описании",
+					"item": [
+						{
+							"name": "Картинка в описании",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is not 200\", function () {\r",
+											"    pm.response.to.have.status(!200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#81888D\",\r\n    \"description\": \"cjd1qmxnsrw7i1vgzkgk\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"{{Today}}12:00:00+03:00\",\r\n    \"endAt\": \"{{Today}}13:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(!200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{Today}}12:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Событие синего цвета (цвет не представлен на макете)",
+					"item": [
+						{
+							"name": "Событие синего цвета",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is not 200\", function () {\r",
+											"    pm.response.to.have.status(!200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"))"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#0b3275\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"{{Today}}12:00:00+03:00\",\r\n    \"endAt\": \"{{Today}}13:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(!200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{Today}}12:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Событие без названия",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment'); \r",
+									"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"\",\r\n    \"startAt\": \"{{Today}}12:00:00+03:00\",\r\n    \"endAt\": \"{{Today}}13:00:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Событие с длинным названием",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment'); \r",
+									"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"Новое__событие__длинною_сорок_один_символ\",\r\n    \"startAt\": \"{{Today}}12:00:00+03:00\",\r\n    \"endAt\": \"{{Today}}13:00:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Событие с некорректной датой",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"12 январяT12:00:00+03:00\",\r\n    \"endAt\": \"12 январяT13:00:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Событие без указания даты",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"T12:00:00+03:00\",\r\n    \"endAt\": \"T13:00:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Событие с датой окончания раньше чем начало",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"2023-06-03T15:00:00+03:00\",\r\n    \"endAt\": \"2023-06-02T16:00:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Событие с временем окончания раньше чем начало",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"2023-06-03T15:00:00+03:00\",\r\n    \"endAt\": \"2023-06-03T12:00:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Событие нулевой продолжительности",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment'); \r",
+									"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"{{Today}}12:00:00+03:00\",\r\n    \"endAt\": \"{{Today}}12:00:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Событие с указанием формата времени более 24 часов и 59 минут",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment'); \r",
+									"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"{{Today}}25:60:00+03:00\",\r\n    \"endAt\": \"{{Today}}26:61:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "События с некорректным временем",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment'); \r",
+									"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"{{Today}}Половина пятого+03:00\",\r\n    \"endAt\": \"{{Today}}Половина пятого+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Событие без указания времени",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment'); \r",
+									"pm.collectionVariables.set(\"Today\", moment().format(\"YYYY-MM-DDT\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"S\",\r\n    \"startAt\": \"{{Today}}\",\r\n    \"endAt\": \"{{Today}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/createPersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"createPersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Редактирование события",
+			"item": [
+				{
+					"name": "Редактирование названия, описания и цвета события",
+					"item": [
+						{
+							"name": "Pre-conditions (Создание)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toUpdate\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"lastMonth\", moment().add(-1,'M').format(\"YYYY-MM-DDT\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"Описание для удаления\",\r\n    \"title\": \"Проверка_редактирования\",\r\n    \"startAt\": \"{{lastMonth}}12:00:00+03:00\",\r\n    \"endAt\": \"{{lastMonth}}13:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Редактирование названия, описания, цаета",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"lastMonth\", moment().add(-1,'M').format(\"YYYY-MM-DDT\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#FAC641\",\r\n    \"description\": \"\",\r\n    \"title\": \"Удалить Его\",\r\n    \"startAt\": \"{{lastMonth}}15:00:00+03:00\",\r\n    \"endAt\": \"{{lastMonth}}16:00:00+03:00\",\r\n    \"id\": {{id_toUpdate}},\r\n    \"oldStartAt\": \"{{lastMonth}}12:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/updatePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{lastMonth}}15:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Редактирование времени в завершенном событии и добавление описания",
+					"item": [
+						{
+							"name": "Pre-conditions (Создание)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toUpdate\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"currentTime\", moment().format(\"YYYY-MM-DDTHH:mm:ssZ\"));\r",
+											"pm.collectionVariables.set(\"currentTime-1hour\", moment().add(-1,'H').format(\"YYYY-MM-DDTHH:mm:ssZ\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"Проверка_редактирования\",\r\n    \"startAt\": \"{{currentTime-1hour}}\",\r\n    \"endAt\": \"{{currentTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Редактирование времени + описание",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"currentTime+1hour\", moment().add(1,'H').format(\"YYYY-MM-DDTHH:mm:ssZ\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"Добавил описание\",\r\n    \"title\": \"Удалить Его\",\r\n    \"startAt\": \"{{currentTime-1hour}}\",\r\n    \"endAt\": \"{{currentTime+1hour}}\",\r\n    \"id\": {{id_toUpdate}},\r\n    \"oldStartAt\": \"{{currentTime-1hour}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/updatePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{currentTime-1hour}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Перенос времени окончания вперед, в событии, которое длится на данный момент",
+					"item": [
+						{
+							"name": "Pre-conditions (Создание)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toUpdate\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"currentTime\", moment().format(\"YYYY-MM-DDTHH:mm:ssZ\"));\r",
+											"pm.collectionVariables.set(\"currentTime+1hour\", moment().add(1,'H').format(\"YYYY-MM-DDTHH:mm:ssZ\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"Проверка_редактирования\",\r\n    \"startAt\": \"{{currentTime}}\",\r\n    \"endAt\": \"{{currentTime+1hour}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Перенос времени вперед",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"currentTime+2hour\", moment().add(2,'H').format(\"YYYY-MM-DDTHH:mm:ssZ\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"Добавил описание\",\r\n    \"title\": \"Добавил час\",\r\n    \"startAt\": \"{{currentTime}}\",\r\n    \"endAt\": \"{{currentTime+2hour}}\",\r\n    \"id\": {{id_toUpdate}},\r\n    \"oldStartAt\": \"{{currentTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/updatePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{currentTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Перенос времени окончания назад, в событии, которое длится на данный момент",
+					"item": [
+						{
+							"name": "Pre-conditions (Создание)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toUpdate\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"currentTime\", moment().format(\"YYYY-MM-DDTHH:mm:ssZ\"));\r",
+											"pm.collectionVariables.set(\"currentTime+2hour\", moment().add(2,'H').format(\"YYYY-MM-DDTHH:mm:ssZ\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"Проверка_редактирования\",\r\n    \"startAt\": \"{{currentTime}}\",\r\n    \"endAt\": \"{{currentTime+2hour}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Перенос времени назад",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"currentTime+1hour\", moment().add(1,'H').format(\"YYYY-MM-DDTHH:mm:ssZ\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"Добавил описание\",\r\n    \"title\": \"Отнял час\",\r\n    \"startAt\": \"{{currentTime}}\",\r\n    \"endAt\": \"{{currentTime+1hour}}\",\r\n    \"id\": {{id_toUpdate}},\r\n    \"oldStartAt\": \"{{currentTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/updatePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{currentTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Редактирование времени в запланированном событии",
+					"item": [
+						{
+							"name": "Pre-conditions (Создание)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toUpdate\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"Tomorrow\", moment().add(1,'d').format(\"YYYY-MM-DDT\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"Проверка_редактирования\",\r\n    \"startAt\": \"{{Tomorrow}}12:00:00+03:00\",\r\n    \"endAt\": \"{{Tomorrow}}13:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Редактирование времени в запланированном событии",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"Добавил описание\",\r\n    \"title\": \"Отредактировал время\",\r\n    \"startAt\": \"{{Tomorrow}}10:00:00+03:00\",\r\n    \"endAt\": \"{{Tomorrow}}14:00:00+03:00\",\r\n    \"id\": {{id_toUpdate}},\r\n    \"oldStartAt\": \"{{Tomorrow}}12:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/updatePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{Tomorrow}}10:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Указание недопустимого названия при редактировании",
+					"item": [
+						{
+							"name": "Pre-conditions (Создание)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toUpdate\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"currentTime\", moment().format(\"YYYY-MM-DDTHH:mm:ssZ\"));\r",
+											"pm.collectionVariables.set(\"currentTime+2hour\", moment().add(2,'H').format(\"YYYY-MM-DDTHH:mm:ssZ\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"Плохое название\",\r\n    \"startAt\": \"{{currentTime}}\",\r\n    \"endAt\": \"{{currentTime+2hour}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Недопустимое название",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//var jsonData = JSON.parse(responseBody);\r",
+											"//var temp = jsonData.data.payload.id;\r",
+											"//pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(!200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"Вот оно\",\r\n    \"title\": \"оощфуккрощДиро8оицдиьылритоктилкикрифеетрфятуоооооооо\",\r\n    \"startAt\": \"{{currentTime}}\",\r\n    \"endAt\": \"{{currentTime+2hour}}\",\r\n    \"id\": {{id_toUpdate}},\r\n    \"oldStartAt\": \"{{currentTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/updatePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"updatePersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toUpdate}},\r\n    \"startAt\": \"{{currentTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Удаление события",
+			"item": [
+				{
+					"name": "Удаление завершенного события",
+					"item": [
+						{
+							"name": "Pre-conditions (Создание)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"currentTime\", moment().format(\"YYYY-MM-DDTHH:mm:ssZ\"));\r",
+											"pm.collectionVariables.set(\"currentTime-1hour\", moment().add(-1,'H').format(\"YYYY-MM-DDTHH:mm:ssZ\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"Проверка_удаления\",\r\n    \"startAt\": \"{{currentTime-1hour}}\",\r\n    \"endAt\": \"{{currentTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{currentTime-1hour}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Удаление текущего события",
+					"item": [
+						{
+							"name": "Pre-conditions (Создание)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"currentTime\", moment().format(\"YYYY-MM-DDTHH:mm:ssZ\"));\r",
+											"pm.collectionVariables.set(\"currentTime+1hour\", moment().add(1,'H').format(\"YYYY-MM-DDTHH:mm:ssZ\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"Проверка_удаления\",\r\n    \"startAt\": \"{{currentTime}}\",\r\n    \"endAt\": \"{{currentTime+1hour}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{currentTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Удаление запланированного события",
+					"item": [
+						{
+							"name": "Pre-conditions (Создание)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"var temp = jsonData.data.payload.id;\r",
+											"pm.collectionVariables.set(\"id_toDelete\", temp);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment'); \r",
+											"pm.collectionVariables.set(\"Tomorrow\", moment().add(1,'d').format(\"YYYY-MM-DDT\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"backgroundColor\": \"#F4F5F6\",\r\n    \"color\": \"#43B658\",\r\n    \"description\": \"\",\r\n    \"title\": \"Проверка_удаления\",\r\n    \"startAt\": \"{{Tomorrow}}12:00:00+03:00\",\r\n    \"endAt\": \"{{Tomorrow}}13:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/createPersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"createPersonal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление события",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{Tomorrow}}12:00:00+03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/schedule/removePersonal",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"schedule",
+										"removePersonal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Удаление запланированного события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is not 200\", function () {\r",
+									"    pm.response.to.have.status(!200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {{id_toDelete}},\r\n    \"startAt\": \"{{Tomorrow}}12:00:00+03:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedule/removePersonal",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedule",
+								"removePersonal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token_global}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token_global",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VySWQiOjE0NzIwMDY5LCJpZGVudGl0eSI6InRlc3QudHN0MzIwQHNreWVuZy5ydSIsImlkZW50aXR5TG9naW4iOm51bGwsImlkZW50aXR5RW1haWwiOiJ0ZXN0LnRzdDMyMEBza3llbmcucnUiLCJpZGVudGl0eVBob25lIjpudWxsLCJuYW1lIjoiVGVzdCIsInN1cm5hbWUiOiJUZXN0IiwiZW1haWwiOiJ0ZXN0LnRzdDMyMEBza3llbmcucnUiLCJ1aUxhbmd1YWdlIjoicnUiLCJsb2NhbGUiOiJydSIsInNlcnZpY2VMb2NhbGUiOm51bGwsInVhcyI6MzAsImp3dFR5cGUiOjEsImp0aSI6Im9TZDJuVDhqeDRxNDVnQTVjR0p3R01VNTBzWWtUSVZyIiwiYnJhbmQiOm51bGwsImV4cCI6MTY4NTg3MjAzMywiYUlzU3Ryb25nIjp0cnVlLCJhVHlwZSI6IlVTRVJOQU1FX1BBU1NXT1JEIiwiYVRpbWUiOjE2ODU3ODU2MzMsInJvbGVzIjpbIlJPTEVfVEVBQ0hFUl9DQU5ESURBVEUiLCJST0xFX1RFQUNIRVJfQ0FORElEQVRFX0JBU0VfQUNDRVNTIiwiUk9MRV9UVENfVVNBR0UiLCJST0xFX1ZJTUJPWF9URUFDSEVSX1VTQUdFIiwiUk9MRV9URUFDSEVSIiwiUk9MRV9DUk0yX1RFQUNIRVJfQUNDRVNTIiwiUk9MRV9NQVRIX1RFQUNIRVIiLCJST0xFX01BVEhfQ09OVEVOVF9USEVNRV9WSUVXIl19.K_3qvprE8RZL1_4kVSQsZNrfL4Ni4B1yMBgPagVoBPP0nioOSM7-BQYR987063Br4iNPk5hZvz4Bg5oHpo0d6oFLNqIxJKcgl9cJXjeGgbIzslzDCRG0H0M8aTIw0ahDhee3mfUqrFiorMYReYRTWrJrcM07fTnJN01Iy1av5E9rkA5N9wMjtl2JtMECoTZ-R8gDJtsojor4WbWzsIfYZS5Kx5anHLujK58_IpdGiKxYO3kLbZbwBODNCNVwfgmTBkNuMVR3_r6wkO6CYkbSI9rbDrg0v67CV0lz5IJHMoVf-BBOw6Iv8v3lPcQpC4oo92wmeq4ks6cibEbKJ72MyPSwxWErUEQ3h-km7DLGmDp-sjHAFuLAcPex_yr3Sl7Px49O4G8ORZpUisf_kRw_4AE9Brx7V9VGcCceT6OOioC13qGbHRo-Yg9sFrLwnSxRiZ_0O2LelrYVFrv90icT3pS18kvho72Lhi6W2CAHM3zUgWH8b9KljQyn4-XR7Z6o-FEEzRLG3QAwrSMepSiynjRChYk8XFv9_bv1tH-vis9_JiEZV7BwUV7e4WSUq-I4MF6xfU8qSPozKR0jmYRya3D1DHq7wPjB7Tllh7pU64Wu2pw0jNJuM97kSiTjZ2x2PRYtdq54EWaQ-R_dba5jEicny5QUnwPAAzleYGx-zms",
+			"type": "string"
+		},
+		{
+			"key": "baseURL",
+			"value": "https://api-teachers.skyeng.ru/v2",
+			"type": "string"
+		},
+		{
+			"key": "id_toDelete",
+			"value": ""
+		},
+		{
+			"key": "id_toUpdate",
+			"value": ""
+		},
+		{
+			"key": "Today",
+			"value": ""
+		},
+		{
+			"key": "lastMonth",
+			"value": ""
+		},
+		{
+			"key": "nextMonth",
+			"value": ""
+		},
+		{
+			"key": "Tomorrow",
+			"value": ""
+		},
+		{
+			"key": "currentTime",
+			"value": ""
+		},
+		{
+			"key": "currentTime-1hour",
+			"value": ""
+		},
+		{
+			"key": "currentTime+1hour",
+			"value": ""
+		},
+		{
+			"key": "currentTime+2hour",
+			"value": ""
+		}
+	]
+}
