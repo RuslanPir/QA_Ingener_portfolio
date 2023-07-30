@@ -11,7 +11,7 @@ SoapUI, Android Studio, xCode, Charles, Git, Chrome DevTools.
 Проект 1: тест веб-приложения для учителей от Skyeng
 
 Что нужно было сделать:
-
+[Декомпозиция](https://miro.com/app/board/uXjVPl3BZy8=/?share_link_id=382124920475)
 Задача №1
 Задача №2.
 Как решала(-а): краткое описание решения (автореферат)
