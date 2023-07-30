@@ -1,9 +1,37 @@
-- [Smoke тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/pic/Smoke_TC.png)
+- ### **Smoke тестирование**
 
-- [Функциональное тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/Functional_testing.pdf)
+![Smoke тестирование](/documents/pic/Smoke_TC.png)
 
-- [Регрессионное тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/Regression_testing.pdf)
+#### Пример оформления тест кейсов
 
-- [Приемочное тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/pic/Acceptance_TC.png)
+![Smoke тестирование](/documents/pic/smoke1.png)
 
-- [Тестирование API](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/f06023a6171462a47ac445795cff707ce1433f4d/documents/API_testing.md)
+![Smoke тестирование](/documents/pic/smoke2.png)
+
+
+- ### [Функциональное тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/Functional_testing.pdf)
+
+- ### [Регрессионное тестирование](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/947509a6081e2c730aee0cb695a70672a36c3dab/documents/Regression_testing.pdf)
+
+- ### Приемочное тестирование
+
+#### Потребности пользователей
+
+***Марья Ивановна***
+
+Преподает сразу в нескольких школах (трех). Очень важно, чтобы в ее расписании она сразу могла увидеть наглядно, какой ученик из какой школы придет. Важной функциональностью является то, чтобы была возможность все события в календаре разделить по цветам — так ей будет достаточно просто ориентироваться в календаре.
+
+
+***Анастасия Петровна***
+
+Обычно пользуется своим календарем. Поэтому в систему заносит все прошедшие события в конце месяца, чтобы ей начисляли за это заработную плату. Самый распространенный сценарий — создать все события за месяц уже в следующем месяце. Например, события, которые у нее были в январе, она будет заносить в систему только в феврале.
+
+
+***Кирилл Егорович***
+
+Имеет очень много учеников, а также ведет множество предметов. Например, если он готовит ученика на олимпиаду, то ему нужно 2,5 часа на урок, а если это первоклассник — то 35 минут. Самый минимальный урок для него — 25-минутный по обществознанию, а вот максимальный — 9 часов 40 минут (готовил мальчика на олимпиаду).
+
+
+![Тест кейсы](/documents/pic/Acceptance_TC.png)
+
+- ### [Тестирование API](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/f06023a6171462a47ac445795cff707ce1433f4d/documents/API_testing.md)
