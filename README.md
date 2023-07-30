@@ -15,4 +15,6 @@ SoapUI, Android Studio, xCode, Charles, Git, Chrome DevTools.
 
 _[](/documents/requirements.md)
 
+_[План автоматизации](/documents/requirements.md)_
+
 [Декомпозиция](https://miro.com/app/board/uXjVPl3BZy8=/?share_link_id=382124920475)
