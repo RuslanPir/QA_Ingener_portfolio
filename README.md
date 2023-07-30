@@ -13,6 +13,6 @@ SoapUI, Android Studio, xCode, Charles, Git, Chrome DevTools.
 
 ### Требования к новому функционалу:
 
-![](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/e14a4af53ae3131f60043023d9a2f06f1e5508b9/documents/requirements.md)
+_[](/documents/requirements.md)
 
 [Декомпозиция](https://miro.com/app/board/uXjVPl3BZy8=/?share_link_id=382124920475)
