@@ -6,9 +6,13 @@
 
 **Сайт:** https://new-teachers.skyeng.ru/
 
+### **Требования к новому функционалу**
 
+- [Требования](/documents/requirements.md)
 
-### **Тестирование требований**
+- [Декомпозиция](https://miro.com/app/board/uXjVPl3BZy8=/?share_link_id=382124920475)
+
+- Тестирование требований
 
 ![](/documents/pic/Requirements_testing.png)
 
