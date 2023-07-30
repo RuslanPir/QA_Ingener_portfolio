@@ -8,3 +8,4 @@
 
 Тестирование требований
 
+![](/documents/pic/Requirements testing.png)
