@@ -31,7 +31,7 @@
 ### **Тестовая документация**
 
 
-[Тестовая документация](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/ee7be9f9a53921121a14cd9fdd3c1f0f0fbd6be6/documents/test_documentation.md)
+[Тестовая документация](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/main/documents/test_documentation.md)
 
 ### **Расписание тестовых работ**
 
@@ -39,7 +39,7 @@
 
 ### **Отчет о тестировании**
 
-[Отчет](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/cf45a711015dafdb73a766f24ae6f2789f2c32dd/documents/Report.md)
+[Отчет](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/main/documents/Report.md)
 
 ### **Итоговый вывод**
 
