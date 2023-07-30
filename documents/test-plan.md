@@ -30,7 +30,8 @@
 
 ### **Тестовая документация**
 
-[Тестовая документация](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/45a490650ba5e111207f42850d58caf95574baaa/documents/test_documentation.md)
+
+[Тестовая документация](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/ee7be9f9a53921121a14cd9fdd3c1f0f0fbd6be6/documents/test_documentation.md)
 
 ### **Расписание тестовых работ**
 
