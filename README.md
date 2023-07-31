@@ -50,4 +50,13 @@ _[Требования к новому функционалу](/documents/requir
 
 
 ## Контактная нформация
- ![Telegram](https://t.me/dable_door)
+
+Telegram: https://t.me/dable_door
+
+Email: rudn0nhpzgq7ot@gmail.com
+
+VK: https://vk.com/russloon
+
+Skype: live:570dca007ed86348
+
+
