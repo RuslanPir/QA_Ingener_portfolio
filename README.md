@@ -47,3 +47,7 @@ _[Требования к новому функционалу](/documents/requir
 ### 5. Отчет о результатах тестирования
 
 [Отчет](https://github.com/RuslanPir/QA_Ingener_portfolio/blob/main/documents/Report.md)
+
+
+## Контактная нформация
+ ![Telegram](https://t.me/dable_door)
